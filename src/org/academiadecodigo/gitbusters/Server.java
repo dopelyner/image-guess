@@ -1,6 +1,8 @@
 package org.academiadecodigo.gitbusters;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -14,9 +16,7 @@ public class Server {
     public static final String LIST_USERS = "/list";
     public static final String CHANGE_NAME = "/name";
     public static List<UsersHandler> usersList = Collections.synchronizedList(new ArrayList<>());
-
-    private ASCII ascii;
-
+    private BufferedWriter bufferedWriter;
 
     public static void main(String[] args) {
 
@@ -33,10 +33,10 @@ public class Server {
 
             ServerSocket serverSocket = new ServerSocket(DEFAULT_PORT);
             int userCount = 0;
-
             while (true) {
 
                 Socket userSocket = serverSocket.accept();
+                bufferedWriter = new BufferedWriter(new OutputStreamWriter(userSocket.getOutputStream()));
 
                 System.out.println("New connection from: " + userSocket.getInetAddress().getHostAddress());
                 userCount++;
@@ -44,11 +44,10 @@ public class Server {
                 String username = "Nerd " + userCount;
 
                 UsersHandler usersHandler = new UsersHandler(username, userSocket, this);
-                usersList.add(usersHandler);
-
                 welcome();
 
-                UsersHandler.broadcastMessage("",usersHandler.getUsername() + " has entered the chat. Say hi !");
+                UsersHandler.broadcastMessage("", usersHandler.getUsername() + " has entered the chat. Say hi !");
+                usersList.add(usersHandler);
 
                 Thread thread = new Thread(usersHandler);
                 thread.setName(username);
@@ -62,9 +61,17 @@ public class Server {
         }
     }
 
-    public void welcome (){
-        UsersHandler.broadcastMessage("", Image.imageGuess);
-        UsersHandler.broadcastMessage("", Image.separator);
+    public void welcome() {
+
+        try {
+
+            bufferedWriter.write(Image.imageGuess);
+//       bufferedWriter.write(Image.separator);
+            bufferedWriter.flush();
+
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
 
     public static String changeUsername(String newName) {
