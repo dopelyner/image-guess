@@ -5,18 +5,17 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Server {
 
     private static final int DEFAULT_PORT = 8080;
-    public static final String QUIT_CHAT = "/quit";
-    public static final String LIST_USERS = "/list";
-    public static final String CHANGE_NAME = "/name";
-    public static List<UsersHandler> usersList = Collections.synchronizedList(new ArrayList<>());
     private BufferedWriter bufferedWriter;
+
+    public static final String QUIT_GAME = "/quit";
+    public static final String LIST_USERS = "/list";
+    public static final String CHANGE_NAME = "/rename";
+    public static List<UsersHandler> usersList = Collections.synchronizedList(new ArrayList<>());
 
     public static void main(String[] args) {
 
@@ -27,26 +26,27 @@ public class Server {
 
     private void establishConnections() {
 
-        System.out.println("Connecting to PORT:" + DEFAULT_PORT);
+        System.out.println(Message.PORT_CONNECTION + DEFAULT_PORT);
 
         try {
 
             ServerSocket serverSocket = new ServerSocket(DEFAULT_PORT);
             int userCount = 0;
+
             while (true) {
 
                 Socket userSocket = serverSocket.accept();
                 bufferedWriter = new BufferedWriter(new OutputStreamWriter(userSocket.getOutputStream()));
 
-                System.out.println("New connection from: " + userSocket.getInetAddress().getHostAddress());
+                System.out.println(Message.NEW_CONNECTION + userSocket.getInetAddress().getHostAddress());
                 userCount++;
 
-                String username = "Nerd " + userCount;
+                String username = Message.DEFAULT_USER + userCount;
 
                 UsersHandler usersHandler = new UsersHandler(username, userSocket, this);
                 welcome();
 
-                UsersHandler.broadcastMessage("", usersHandler.getUsername() + " has entered the chat. Say hi !");
+                UsersHandler.broadcastMessage("", usersHandler.getUsername() + Message.NEW_USER);
                 usersList.add(usersHandler);
 
                 Thread thread = new Thread(usersHandler);
@@ -66,6 +66,7 @@ public class Server {
         try {
 
             bufferedWriter.write(Image.imageGuess);
+            bufferedWriter.write(Message.INSTRUCTIONS);
 //       bufferedWriter.write(Image.separator);
             bufferedWriter.flush();
 

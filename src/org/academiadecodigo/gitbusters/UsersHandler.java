@@ -53,7 +53,7 @@ public class UsersHandler implements Runnable {
                 }
 
 
-                if (messageFromUser.equals(Server.QUIT_CHAT)) {
+                if (messageFromUser.equals(Server.QUIT_GAME)) {
 
                     quitChat();
 
@@ -74,7 +74,7 @@ public class UsersHandler implements Runnable {
 
     public void showListUsers() {
 
-        sendMessage("Users in the chat: ");
+        sendMessage("\n" + Message.USERS_IN_CHAT);
         sendMessage(server.getUsersInChat());
     }
 
@@ -87,7 +87,7 @@ public class UsersHandler implements Runnable {
 
     public void quitChat() throws IOException {
 
-        broadcastMessage(username, " has left the chat");
+        broadcastMessage(username, Message.LEFT_SERVER);
         readInputFromUser.close();
         sendOutput.close();
         userSocket.close();
