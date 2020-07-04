@@ -10,12 +10,14 @@ public class UsersHandler implements Runnable {
     private BufferedReader readInputFromUser;
     private BufferedWriter sendOutput;
     private Server server;
+    private Game game;
 
     public UsersHandler(String username, Socket userSocket, Server server) {
 
         this.username = username;
         this.userSocket = userSocket;
         this.server = server;
+        this.game = new Game(this.server);
 
         try {
 
@@ -35,6 +37,8 @@ public class UsersHandler implements Runnable {
         try {
 
             while (!userSocket.isClosed()) {
+
+                game.showMenu();
 
                 messageFromUser = readInputFromUser.readLine();
 

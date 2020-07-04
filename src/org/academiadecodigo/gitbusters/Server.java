@@ -1,5 +1,7 @@
 package org.academiadecodigo.gitbusters;
 
+import org.academiadecodigo.bootcamp.Prompt;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -17,6 +19,7 @@ public class Server {
     public static final String CHANGE_NAME = "/name";
     public static List<UsersHandler> usersList = Collections.synchronizedList(new ArrayList<>());
     private BufferedWriter bufferedWriter;
+    private Prompt prompt;
 
     public static void main(String[] args) {
 
@@ -87,4 +90,9 @@ public class Server {
         }
         return stringBuilder.toString();
     }
+
+    public Prompt getPrompt() {
+        return prompt;
+    }
+
 }
