@@ -2,9 +2,7 @@ package org.academiadecodigo.gitbusters;
 
 import org.academiadecodigo.bootcamp.Prompt;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -40,6 +38,11 @@ public class Server {
 
                 Socket userSocket = serverSocket.accept();
                 bufferedWriter = new BufferedWriter(new OutputStreamWriter(userSocket.getOutputStream()));
+
+                PrintStream out = new PrintStream(userSocket.getOutputStream());
+                InputStream in = userSocket.getInputStream();
+                prompt = new Prompt(in,out);
+
 
                 System.out.println("New connection from: " + userSocket.getInetAddress().getHostAddress());
                 userCount++;

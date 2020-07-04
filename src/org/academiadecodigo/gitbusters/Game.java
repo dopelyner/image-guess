@@ -4,13 +4,18 @@ import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 
+import java.util.HashMap;
+
 public class Game {
     private Server server;
     private Prompt prompt;
+    private HashMap<String,Integer> scoreBoard;
+    private HashMap<String,Integer> scoreRound;
 
     public Game(Server server){
         this.server = server;
         this.prompt = server.getPrompt();
+        this.scoreBoard = new HashMap<String, Integer>();
     }
 
     public void showMenu(){
@@ -29,7 +34,7 @@ public class Game {
     public void startGame(){
         int i = 0;
         while(i <= 10){
-            server.welcome();
+            server.welcome(); //só para test // precisa de uma imagem nova a cada iteração
             StringInputScanner guess = new StringInputScanner();
             guess.setMessage("Guess The Image");
             prompt.getUserInput(guess);
