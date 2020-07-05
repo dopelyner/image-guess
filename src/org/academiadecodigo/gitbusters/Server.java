@@ -58,12 +58,12 @@ public class Server {
                 System.out.println("New connection from: " + userSocket.getInetAddress().getHostAddress());
                 userCount++;
 
-                String username = "Nerd " + userCount;
+                String username = "Player " + userCount;
 
                 UsersHandler usersHandler = new UsersHandler(username, userSocket, this);
                 welcome();
 
-                UsersHandler.broadcastMessage("", usersHandler.getUsername() + " has entered the chat. Say hi !");
+                UsersHandler.broadcastMessage("", usersHandler.getUsername() + " has entered the game room.");
                 usersList.add(usersHandler);
 
                 Thread thread = new Thread(usersHandler);

@@ -12,32 +12,20 @@ public class UsersHandler implements Runnable {
     private Socket userSocket;
     private BufferedReader readInputFromUser;
     private BufferedWriter sendOutput;
-    StringInputScanner guess = new StringInputScanner();
-    int score;
-
-    public void setOn(boolean on) {
-        isOn = on;
-    }
-
-    private boolean isOn;
-
-
-
-
-    public Server getServer() {
-        return server;
-    }
-
+    private StringInputScanner guess = new StringInputScanner();
     private Server server;
     private Game game;
+    private boolean ready;
+    private boolean end;
 
     public UsersHandler(String username, Socket userSocket, Server server) {
 
         this.username = username;
         this.userSocket = userSocket;
         this.server = server;
-        this.isOn = true;
+        this.ready = false;
         this.game = new Game(this);
+        this.end = false;
 
 
         try {
@@ -59,43 +47,14 @@ public class UsersHandler implements Runnable {
 
             while (!userSocket.isClosed()) {
 
-                while(isOn){
+                while(true){
                     game.showMenu();
 
 
                 }
-
-                messageFromUser = readInputFromUser.readLine();
-
-                String[] splits = messageFromUser.split(" ");
-
-                if (messageFromUser.startsWith(Server.CHANGE_NAME)) {
-
-                    changeUserName(splits[1]);
-
-                }
-
-                if (messageFromUser.equals(Server.LIST_USERS)) {
-
-                    showListUsers();
-
-                }
-
-
-                if (messageFromUser.equals(Server.QUIT_CHAT)) {
-
-                    quitChat();
-
-                } else {
-
-                    if (!messageFromUser.startsWith(Server.CHANGE_NAME)) {
-                        broadcastMessage(username, messageFromUser);
-
-                    }
-                }
             }
 
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.getStackTrace();
 
         }
@@ -148,10 +107,6 @@ public class UsersHandler implements Runnable {
         }
     }
 
-    public Socket getUserSocket() {
-        return userSocket;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -160,7 +115,31 @@ public class UsersHandler implements Runnable {
         return guess;
     }
 
-    public void setScore(int score) {
-        this.score += score;
+    public Server getServer() {
+        return server;
+    }
+
+    public void quit() throws IOException {
+        userSocket.close();
+        Server.usersList.remove(this);
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setReady(boolean ready) {
+        this.ready = ready;
+    }
+
+    public boolean getReady(){
+        return ready;
+    }
+
+    public void setEnd(boolean end) {
+        this.end = end;
+    }
+    public boolean getEnd(){
+        return end;
     }
 }
