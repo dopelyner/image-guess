@@ -12,9 +12,6 @@ import java.util.List;
 public class Server {
 
     private static final int DEFAULT_PORT = 80;
-    public static final String QUIT_CHAT = "/quit";
-    public static final String LIST_USERS = "/list";
-    public static final String CHANGE_NAME = "/name";
     public static List<UsersHandler> usersList = Collections.synchronizedList(new ArrayList<>());
     public static List<String> images;
 
@@ -55,7 +52,7 @@ public class Server {
                 prompt = new Prompt(in, out);
 
 
-                System.out.println("New connection from: " + userSocket.getInetAddress().getHostAddress());
+                System.out.println("\033[36mNew Connection\033[0m" + userSocket.getInetAddress().getHostAddress());
                 userCount++;
 
                 String username = "Player " + userCount;
@@ -69,6 +66,7 @@ public class Server {
                 Thread thread = new Thread(usersHandler);
                 thread.setName(username);
                 thread.start();
+
 
             }
 
