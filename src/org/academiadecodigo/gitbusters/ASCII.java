@@ -2,24 +2,32 @@ package org.academiadecodigo.gitbusters;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ASCII {
 
-    private ArrayList<String> list = new ArrayList();
+    private static ConcurrentHashMap<String,String> list;
 
-    public void populateList(){
-        list = new ArrayList<>();
+    public static ConcurrentHashMap<String,String> getList(){
+        list = new ConcurrentHashMap<>();
 
-        list.add(Image.separator);
-        list.add(Image.imageGuess);
+        list.put("bottle",Image.bottle);
+        list.put("moustache",Image.moustache);
+        list.put("shoe",Image.shoe);
+        list.put("book",Image.book);
+        list.put("camera",Image.camera);
+        list.put("car",Image.car);
+        list.put("ghost", Image.ghost);
+        list.put("glasses",Image.glasses);
+        list.put("guitar",Image.guitar);
+        list.put("key",Image.key);
 
-        Collections.shuffle(list);
-
-    }
-
-
-    public ArrayList<String> getList() {
         return list;
+
     }
+
+
 
 }

@@ -9,6 +9,20 @@ public class UsersHandler implements Runnable {
     private Socket userSocket;
     private BufferedReader readInputFromUser;
     private BufferedWriter sendOutput;
+
+    public void setOn(boolean on) {
+        isOn = on;
+    }
+
+    private boolean isOn;
+
+
+
+
+    public Server getServer() {
+        return server;
+    }
+
     private Server server;
     private Game game;
 
@@ -17,7 +31,9 @@ public class UsersHandler implements Runnable {
         this.username = username;
         this.userSocket = userSocket;
         this.server = server;
-        this.game = new Game(this.server);
+        this.isOn = true;
+        this.game = new Game(this);
+
 
         try {
 
@@ -38,7 +54,11 @@ public class UsersHandler implements Runnable {
 
             while (!userSocket.isClosed()) {
 
-                game.showMenu();
+                while(isOn){
+                    game.showMenu();
+
+
+                }
 
                 messageFromUser = readInputFromUser.readLine();
 

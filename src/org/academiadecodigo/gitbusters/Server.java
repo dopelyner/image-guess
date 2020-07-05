@@ -16,6 +16,11 @@ public class Server {
     public static final String LIST_USERS = "/list";
     public static final String CHANGE_NAME = "/name";
     public static List<UsersHandler> usersList = Collections.synchronizedList(new ArrayList<>());
+
+    public BufferedWriter getBufferedWriter() {
+        return bufferedWriter;
+    }
+
     private BufferedWriter bufferedWriter;
     private Prompt prompt;
 
