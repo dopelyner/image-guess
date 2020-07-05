@@ -4,8 +4,11 @@ import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.net.UnknownServiceException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -23,7 +26,7 @@ public class Game {
     }
 
 
-    public void showMenu(){
+    public void showMenu() throws IOException {
         String[] options = {"Play the Game", "View Instructions", "Quit"};
         MenuInputScanner menu = new MenuInputScanner(options);
         menu.setMessage("Choose an Option");
@@ -44,45 +47,41 @@ public class Game {
 
     }
 
-    public void startGame(){
+    public void startGame() throws IOException {
 
-        //can be put inside a method the next 3 lines
-        ArrayList<String> images = new ArrayList<>();
-        images.addAll(ASCII.getList().values());
-        Collections.shuffle(images);
 
         int i = 0;
         while(i < 10){
-            try {
-                out.write(images.get(i));
-                out.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            StringInputScanner guess = new StringInputScanner();
-            guess.setMessage("Guess The Image: ");
 
-            String answer = prompt.getUserInput(guess);
+            //UsersHandler.broadcastMessage("",images.get(i));
 
-            //colocar dentro de um método
-            for (String key: ASCII.getList().keySet()) {
-                if(answer.equals(key)){
-                    System.out.println("score++");
-                    try {
-                        out.write("Correct Answer" + "\n");
-                        out.flush();
-                        Thread.sleep(1000);
-                    } catch (InterruptedException | IOException e) {
-                        e.printStackTrace();
-                    }
-                    finalScore++;
+                for (UsersHandler player : Server.usersList){
+                    player.getGuess().setMessage("Guess The Image: \n"+Server.getImages().get(i));
                 }
-            }
-            i++;
+
+                String answer = prompt.getUserInput(player.getGuess());
+
+                //colocar dentro de um método
+                for (String key: ASCII.getList().keySet()) {
+                    if(answer.equals(key)){
+                        System.out.println("score++");
+                        try {
+                            out.write("Correct Answer" + "\n");
+                            out.flush();
+                            Thread.sleep(1000);
+                        } catch (InterruptedException | IOException e) {
+                            e.printStackTrace();
+                        }
+                        finalScore++;
+                        player.setScore(1);
+                    }
+                }
+                i++;
         }
+        Collections.shuffle(Server.getImages());
         showFinalScore();
         try {
-            out.close();
+            showMenu();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,7 +90,7 @@ public class Game {
 
     }
 
-    public void instructionsMenu(){
+    public void instructionsMenu() throws IOException {
 
         System.out.println("sout");
         try {

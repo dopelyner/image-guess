@@ -1,5 +1,8 @@
 package org.academiadecodigo.gitbusters;
 
+import org.academiadecodigo.bootcamp.Prompt;
+import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -9,6 +12,8 @@ public class UsersHandler implements Runnable {
     private Socket userSocket;
     private BufferedReader readInputFromUser;
     private BufferedWriter sendOutput;
+    StringInputScanner guess = new StringInputScanner();
+    int score;
 
     public void setOn(boolean on) {
         isOn = on;
@@ -151,4 +156,11 @@ public class UsersHandler implements Runnable {
         return username;
     }
 
+    public StringInputScanner getGuess() {
+        return guess;
+    }
+
+    public void setScore(int score) {
+        this.score += score;
+    }
 }

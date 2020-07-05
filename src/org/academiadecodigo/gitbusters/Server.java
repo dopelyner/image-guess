@@ -11,11 +11,12 @@ import java.util.List;
 
 public class Server {
 
-    private static final int DEFAULT_PORT = 8080;
+    private static final int DEFAULT_PORT = 80;
     public static final String QUIT_CHAT = "/quit";
     public static final String LIST_USERS = "/list";
     public static final String CHANGE_NAME = "/name";
     public static List<UsersHandler> usersList = Collections.synchronizedList(new ArrayList<>());
+    public static List<String> images;
 
     public BufferedWriter getBufferedWriter() {
         return bufferedWriter;
@@ -37,6 +38,11 @@ public class Server {
 
         try {
 
+            images = new ArrayList<>();
+            images.addAll(ASCII.getList().values());
+            Collections.shuffle(images);
+
+
             ServerSocket serverSocket = new ServerSocket(DEFAULT_PORT);
             int userCount = 0;
             while (true) {
@@ -46,7 +52,7 @@ public class Server {
 
                 PrintStream out = new PrintStream(userSocket.getOutputStream());
                 InputStream in = userSocket.getInputStream();
-                prompt = new Prompt(in,out);
+                prompt = new Prompt(in, out);
 
 
                 System.out.println("New connection from: " + userSocket.getInetAddress().getHostAddress());
@@ -103,4 +109,7 @@ public class Server {
         return prompt;
     }
 
+    public static List<String> getImages() {
+        return images;
+    }
 }
