@@ -15,10 +15,6 @@ public class Server {
     public static List<UsersHandler> usersList = Collections.synchronizedList(new ArrayList<>());
     public static List<String> images;
 
-    public BufferedWriter getBufferedWriter() {
-        return bufferedWriter;
-    }
-
     private Prompt prompt;
 
 
@@ -69,6 +65,7 @@ public class Server {
                 thread.setName(username);
                 thread.start();
 
+
             }
 
         } catch (IOException e) {
@@ -110,4 +107,9 @@ public class Server {
     public static List<String> getImages() {
         return images;
     }
+
+    public BufferedWriter getBufferedWriter() {
+        return bufferedWriter;
+    }
+
 }

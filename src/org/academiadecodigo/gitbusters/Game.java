@@ -33,12 +33,24 @@ public class Game {
         int i = prompt.getUserInput(menu);
 
         switch (i) {
-            case 1 -> startGame();
+            case 1 -> {
+                if (verifyPlayers()) {
+                    UsersHandler.broadcastMessage(player.getUsername(), "has started the game!\n");
+                    startGame();
+
+                } else {
+                    out.write("Must wait all players ready");
+                    out.flush();
+                }
+            }
             case 2 -> {
                 player.setReady(true);
                 UsersHandler.broadcastMessage(player.getUsername(), "is ready\n");
                 out.write("You are ready\n");
                 out.flush();
+                if (Game.verifyPlayers()) {
+                    UsersHandler.broadcastMessage("", "All Players are ready\n");
+                }
             }
             case 3 -> {
                 out.write("\n" + showAllFinalScore());
@@ -68,18 +80,15 @@ public class Game {
         finalScore = 0;
         int i = 0;
 
-        if (!verifyPlayers()) {
-            out.write("Must wait all players ready\n");
-            out.flush();
-            showMenu();
-        }
-        if (verifyPlayers()) {
 
+        for (UsersHandler player : Server.usersList) {
             while (i < 10) {
 
-                for (UsersHandler player : Server.usersList) {
-                    player.getGuess().setMessage(Server.getImages().get(i) + "\nGuess The Image: ");
+                if (i==5){
+                    player.setReady(false);
                 }
+                //UsersHandler.broadcastMessage("",images.get(i));
+                player.getGuess().setMessage(Server.getImages().get(i) + "\nGuess The Image: ");
 
                 String answer = prompt.getUserInput(player.getGuess());
 
@@ -100,13 +109,13 @@ public class Game {
             }
 
             showFinalScore();
-            player.setReady(false);
 
             out.write(Image.imageGuess);
             out.flush();
 
             showMenu();
         }
+
 
     }
 
@@ -115,7 +124,7 @@ public class Game {
         System.out.println("sout");
         try {
             out.write("\n");
-            out.write("Here are the instructions" + "\n");
+            out.write("Instructions: " + "\n");
             out.write("\n");
             out.write("The Game has 10 rounds" + "\n");
             out.write("Every round you have to guess the image" + "\n");
@@ -153,7 +162,7 @@ public class Game {
         return scores.toString();
     }
 
-    public boolean verifyPlayers() {
+    public static boolean verifyPlayers() {
         for (UsersHandler player : Server.usersList) {
             if (!player.getReady()) {
                 return false;

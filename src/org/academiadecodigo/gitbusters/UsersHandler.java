@@ -52,14 +52,12 @@ public class UsersHandler implements Runnable {
         }
     }
 
-
     public void changeUserName(String newName) {
 
         broadcastMessage(username, " is now called " + newName);
         username = Server.changeUsername(newName);
 
     }
-
 
     public static void broadcastMessage(String username, String messageToBroadcast) {
 
@@ -114,6 +112,5 @@ public class UsersHandler implements Runnable {
     public boolean getReady() {
         return ready;
     }
-
 
 }
