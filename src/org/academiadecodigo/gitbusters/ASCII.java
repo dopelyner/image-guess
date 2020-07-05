@@ -23,6 +23,22 @@ public class ASCII {
         list.put(Image.glasses,"glasses");
         list.put(Image.guitar,"guitar");
         list.put(Image.key,"key");
+        list.put(Image.apple, "apple");
+        list.put(Image.batman, "batman");
+        list.put(Image.dog, "dog");
+        list.put(Image.facebook, "facebook");
+        list.put(Image.git, "git");
+        list.put(Image.gitbusters, "gitbusters");
+        list.put(Image.gitlab, "gitlab");
+        list.put(Image.html, "html");
+        list.put(Image.java, "java");
+        list.put(Image.pikachu, "pikachu");
+        list.put(Image.pistol, "pistol");
+        list.put(Image.pringles, "pringles");
+        list.put(Image.trophy, "trophy");
+        list.put(Image.turtle, "turtle");
+        list.put(Image.windows, "windows");
+
 
         return list;
 

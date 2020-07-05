@@ -91,13 +91,14 @@ public class Game {
                     if (answer.equals(ASCII.getList().get(Server.getImages().get(i)))) {
                         System.out.println("score++");
                         try {
-                            out.write("Correct Answer" + "\n");
-                            out.flush();
                             Thread.sleep(1000);
-                        } catch (InterruptedException | IOException e) {
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                         finalScore++;
+                    }
+                    else {
+                        Thread.sleep(1000);
                     }
 
                 i++;
