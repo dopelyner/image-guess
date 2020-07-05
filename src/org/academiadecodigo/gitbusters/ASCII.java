@@ -13,16 +13,16 @@ public class ASCII {
     public static ConcurrentHashMap<String,String> getList(){
         list = new ConcurrentHashMap<>();
 
-        list.put("bottle",Image.bottle);
-        list.put("moustache",Image.moustache);
-        list.put("shoe",Image.shoe);
-        list.put("book",Image.book);
-        list.put("camera",Image.camera);
-        list.put("car",Image.car);
-        list.put("ghost", Image.ghost);
-        list.put("glasses",Image.glasses);
-        list.put("guitar",Image.guitar);
-        list.put("key",Image.key);
+        list.put(Image.bottle,"bottle");
+        list.put(Image.moustache,"mustache");
+        list.put(Image.shoe,"shoe");
+        list.put(Image.book,"book");
+        list.put(Image.camera,"camera");
+        list.put(Image.car,"car");
+        list.put(Image.ghost,"ghost");
+        list.put(Image.glasses,"glasses");
+        list.put(Image.guitar,"guitar");
+        list.put(Image.key,"key");
 
         return list;
 

@@ -87,8 +87,8 @@ public class Game {
                 String answer = prompt.getUserInput(player.getGuess());
 
                 //colocar dentro de um método
-                for (String key : ASCII.getList().keySet()) {
-                    if (answer.equals(key)) {
+
+                    if (answer.equals(ASCII.getList().get(Server.getImages().get(i)))) {
                         System.out.println("score++");
                         try {
                             out.write("Correct Answer" + "\n");
@@ -99,7 +99,7 @@ public class Game {
                         }
                         finalScore++;
                     }
-                }
+
                 i++;
             }
 

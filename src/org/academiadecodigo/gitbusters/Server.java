@@ -36,7 +36,7 @@ public class Server {
         try {
 
             images = new ArrayList<>();
-            images.addAll(ASCII.getList().values());
+            images.addAll(ASCII.getList().keySet());
             Collections.shuffle(images);
 
 
