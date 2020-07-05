@@ -60,7 +60,7 @@ public class Server {
                 UsersHandler usersHandler = new UsersHandler(username, userSocket, this);
                 welcome();
 
-                UsersHandler.broadcastMessage("", usersHandler.getUsername() + " has entered the game room.");
+                UsersHandler.broadcastMessage("", "\n"+usersHandler.getUsername() + " has entered the game room.");
                 usersList.add(usersHandler);
 
                 Thread thread = new Thread(usersHandler);

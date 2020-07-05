@@ -1,8 +1,6 @@
 package org.academiadecodigo.gitbusters;
 
-import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
-
 import java.io.*;
 import java.net.Socket;
 

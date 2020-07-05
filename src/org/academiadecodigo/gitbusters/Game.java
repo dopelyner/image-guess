@@ -1,16 +1,10 @@
 package org.academiadecodigo.gitbusters;
-
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
-
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.net.UnknownServiceException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Game {
     private UsersHandler player;
@@ -39,17 +33,17 @@ public class Game {
                     startGame();
 
                 } else {
-                    out.write("Must wait all players ready");
+                    out.write("\nMust wait all players ready\n");
                     out.flush();
                 }
             }
             case 2 -> {
                 player.setReady(true);
-                UsersHandler.broadcastMessage(player.getUsername(), "is ready\n");
-                out.write("You are ready\n");
+                UsersHandler.broadcastMessage("\n"+player.getUsername(), "is ready\n");
+                out.write("\nYou are ready\n");
                 out.flush();
                 if (Game.verifyPlayers()) {
-                    UsersHandler.broadcastMessage("", "All Players are ready\n");
+                    UsersHandler.broadcastMessage("", "\nAll Players are ready\n");
                 }
             }
             case 3 -> {
@@ -58,7 +52,7 @@ public class Game {
             }
             case 4 -> {
                 Collections.shuffle(Server.getImages());
-                UsersHandler.broadcastMessage("", "Images have been shuffled\n");
+                UsersHandler.broadcastMessage("", "\nImages have been shuffled\n");
                 showMenu();
             }
             case 5 -> instructionsMenu();
