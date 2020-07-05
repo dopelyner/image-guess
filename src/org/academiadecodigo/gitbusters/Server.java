@@ -5,16 +5,13 @@ import org.academiadecodigo.bootcamp.Prompt;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Server {
 
     private static final int DEFAULT_PORT = 80;
-    public static final String QUIT_CHAT = "/quit";
-    public static final String LIST_USERS = "/list";
-    public static final String CHANGE_NAME = "/name";
+    private BufferedWriter bufferedWriter;
+
     public static List<UsersHandler> usersList = Collections.synchronizedList(new ArrayList<>());
     public static List<String> images;
 
@@ -22,8 +19,8 @@ public class Server {
         return bufferedWriter;
     }
 
-    private BufferedWriter bufferedWriter;
     private Prompt prompt;
+
 
     public static void main(String[] args) {
 
@@ -34,7 +31,7 @@ public class Server {
 
     private void establishConnections() {
 
-        System.out.println("Connecting to PORT:" + DEFAULT_PORT);
+        System.out.println(Message.PORT_CONNECTION + DEFAULT_PORT);
 
         try {
 
@@ -45,6 +42,7 @@ public class Server {
 
             ServerSocket serverSocket = new ServerSocket(DEFAULT_PORT);
             int userCount = 0;
+
             while (true) {
 
                 Socket userSocket = serverSocket.accept();
@@ -55,15 +53,16 @@ public class Server {
                 prompt = new Prompt(in, out);
 
 
-                System.out.println("New connection from: " + userSocket.getInetAddress().getHostAddress());
+                System.out.println(Message.NEW_CONNECTION + userSocket.getInetAddress().getHostAddress());
                 userCount++;
 
-                String username = "Player " + userCount;
+                String username = Message.DEFAULT_USER + userCount;
 
                 UsersHandler usersHandler = new UsersHandler(username, userSocket, this);
                 welcome();
 
-                UsersHandler.broadcastMessage("", usersHandler.getUsername() + " has entered the game room.");
+
+                UsersHandler.broadcastMessage("", usersHandler.getUsername() + Message.NEW_USER);
                 usersList.add(usersHandler);
 
                 Thread thread = new Thread(usersHandler);
@@ -83,7 +82,6 @@ public class Server {
         try {
 
             bufferedWriter.write(Image.imageGuess);
-//       bufferedWriter.write(Image.separator);
             bufferedWriter.flush();
 
         } catch (IOException ioException) {

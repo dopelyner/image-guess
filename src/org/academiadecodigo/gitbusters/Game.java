@@ -77,14 +77,12 @@ public class Game {
 
             while (i < 10) {
 
-                //UsersHandler.broadcastMessage("",images.get(i));
                 for (UsersHandler player : Server.usersList) {
                     player.getGuess().setMessage(Server.getImages().get(i) + "\nGuess The Image: ");
                 }
 
                 String answer = prompt.getUserInput(player.getGuess());
 
-                //colocar dentro de um método
                 for (String key : ASCII.getList().keySet()) {
                     if (answer.equals(key)) {
                         System.out.println("score++");
@@ -164,13 +162,4 @@ public class Game {
         return true;
     }
 
-    public boolean verifyEnd() {
-        for (UsersHandler player : Server.usersList) {
-            if (!player.getEnd()) {
-                return false;
-            }
-        }
-        return true;
-
-    }
 }

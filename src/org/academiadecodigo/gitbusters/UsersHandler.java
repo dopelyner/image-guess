@@ -1,6 +1,5 @@
 package org.academiadecodigo.gitbusters;
 
-import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 
 import java.io.*;
@@ -16,7 +15,6 @@ public class UsersHandler implements Runnable {
     private Server server;
     private Game game;
     private boolean ready;
-    private boolean end;
 
     public UsersHandler(String username, Socket userSocket, Server server) {
 
@@ -25,8 +23,6 @@ public class UsersHandler implements Runnable {
         this.server = server;
         this.ready = false;
         this.game = new Game(this);
-        this.end = false;
-
 
         try {
 
@@ -41,16 +37,12 @@ public class UsersHandler implements Runnable {
     @Override
     public void run() {
 
-        String messageFromUser;
-
         try {
 
             while (!userSocket.isClosed()) {
 
-                while(true){
+                while (true) {
                     game.showMenu();
-
-
                 }
             }
 
@@ -60,11 +52,6 @@ public class UsersHandler implements Runnable {
         }
     }
 
-    public void showListUsers() {
-
-        sendMessage("Users in the chat: ");
-        sendMessage(server.getUsersInChat());
-    }
 
     public void changeUserName(String newName) {
 
@@ -73,14 +60,6 @@ public class UsersHandler implements Runnable {
 
     }
 
-    public void quitChat() throws IOException {
-
-        broadcastMessage(username, " has left the chat");
-        readInputFromUser.close();
-        sendOutput.close();
-        userSocket.close();
-
-    }
 
     public static void broadcastMessage(String username, String messageToBroadcast) {
 
@@ -132,14 +111,9 @@ public class UsersHandler implements Runnable {
         this.ready = ready;
     }
 
-    public boolean getReady(){
+    public boolean getReady() {
         return ready;
     }
 
-    public void setEnd(boolean end) {
-        this.end = end;
-    }
-    public boolean getEnd(){
-        return end;
-    }
+
 }
