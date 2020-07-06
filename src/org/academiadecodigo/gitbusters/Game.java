@@ -25,10 +25,11 @@ public class Game {
 
         String[] options = {"Play the Game", "Get Ready!", "Scores", "Shuffle", "View Instructions", "Change name", "Quit"};
         MenuInputScanner menu = new MenuInputScanner(options);
-        menu.setMessage("Choose an Option\n");
-        int i = prompt.getUserInput(menu);
+        menu.setMessage("Choose an Option" + "\n");
+        int menuChoice = prompt.getUserInput(menu);
 
-        switch (i) {
+        switch (menuChoice) {
+
             case 1 -> {
                 if (verifyPlayers()) {
                     UsersHandler.broadcastMessage(player.getUsername(), "has started the game!\n");
@@ -81,31 +82,11 @@ public class Game {
                 if (i == 5){
                     player.setReady(false);
                 }
-                //UsersHandler.broadcastMessage("",images.get(i));
+
                 player.getGuess().setMessage(Server.getImages().get(i) + "\n" + "Guess The Image: ");
-
                 String answer = prompt.getUserInput(player.getGuess());
+                verifyAnswer(answer,i);
 
-                //colocar dentro de um método
-
-                    if (answer.equals(ASCII.getList().get(Server.getImages().get(i)))) {
-                        System.out.println("score++");
-
-                        try {
-
-                            Thread.sleep(1000);
-
-                        } catch (InterruptedException e) {
-
-                            e.printStackTrace();
-                        }
-
-                        finalScore++;
-
-                    } else {
-
-                        Thread.sleep(1000);
-                    }
                 i++;
             }
 
@@ -117,14 +98,34 @@ public class Game {
         }
     }
 
-    public void instructionsMenu() throws IOException, InterruptedException {
+    private void verifyAnswer(String answer, int i) throws InterruptedException {
 
-        System.out.println("sout");
+        if (answer.equals(ASCII.getList().get(Server.getImages().get(i)))) {
+
+            try {
+
+                Thread.sleep(1000);
+
+            } catch (InterruptedException e) {
+
+                e.printStackTrace();
+            }
+
+            finalScore++;
+
+        } else {
+
+            Thread.sleep(1000);
+        }
+    }
+
+    public void instructionsMenu() throws IOException, InterruptedException {
 
         try {
 
-            out.write("\n" + "Instructions: " + "\n" + "\n" + "The Game has 10 rounds" + "\n"
-                    + "Every round you have to guess the image" + "\n" + "You only have one chance" + "\n");
+            out.write("\n" + "Instructions: " + "\n" + "\n" + "The Game starts only after all players get ready."
+                    + "The Game has 10 rounds." + "\n" + "Every round you have to guess the image."
+                    + "\n" + "You only have one chance to guess." + "\n");
             out.flush();
 
         } catch (Exception e) {
@@ -136,9 +137,9 @@ public class Game {
         String[] options = {"Back to Menu"};
         MenuInputScanner menu = new MenuInputScanner(options);
         menu.setMessage("Press 1 to go back to MainMenu");
-        int i = prompt.getUserInput(menu);
+        int userInput = prompt.getUserInput(menu);
 
-        if (i == 1) {
+        if (userInput == 1) {
             showMenu();
         }
     }
@@ -147,8 +148,8 @@ public class Game {
 
         try {
 
-            String i = "Your final score is: " + finalScore;
-            out.write(i);
+            String finalScoreMessage = "Your final score is: " + finalScore;
+            out.write(finalScoreMessage);
             out.flush();
 
         } catch (IOException e) {
@@ -171,7 +172,7 @@ public class Game {
     public static boolean verifyPlayers() {
 
         for (UsersHandler player : Server.usersList) {
-            
+
             if (!player.getReady()) {
                 return false;
             }

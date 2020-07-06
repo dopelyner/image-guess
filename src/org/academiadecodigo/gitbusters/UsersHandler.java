@@ -36,7 +36,6 @@ public class UsersHandler implements Runnable {
     @Override
     public void run() {
 
-        String messageFromUser;
         try {
 
             while (!userSocket.isClosed()) {
@@ -62,7 +61,6 @@ public class UsersHandler implements Runnable {
 
             if (!usersHandler.getUsername().equals(username)) {
                 usersHandler.sendMessage(username + " " + messageToBroadcast);
-
             }
         }
     }
@@ -80,6 +78,11 @@ public class UsersHandler implements Runnable {
         }
     }
 
+    public void quit() throws IOException {
+        userSocket.close();
+        Server.usersList.remove(this);
+    }
+
     public String getUsername() {
         return username;
     }
@@ -90,11 +93,6 @@ public class UsersHandler implements Runnable {
 
     public Server getServer() {
         return server;
-    }
-
-    public void quit() throws IOException {
-        userSocket.close();
-        Server.usersList.remove(this);
     }
 
     public Game getGame() {
