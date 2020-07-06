@@ -1,26 +1,20 @@
 package org.academiadecodigo.gitbusters;
 
 import org.academiadecodigo.bootcamp.Prompt;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Server {
 
     private static final int DEFAULT_PORT = 80;
-    private BufferedWriter bufferedWriter;
-
     public static List<UsersHandler> usersList = Collections.synchronizedList(new ArrayList<>());
     public static List<String> images;
-
-    public BufferedWriter getBufferedWriter() {
-        return bufferedWriter;
-    }
-
+    private BufferedWriter bufferedWriter;
     private Prompt prompt;
-
 
     public static void main(String[] args) {
 
@@ -31,14 +25,13 @@ public class Server {
 
     private void establishConnections() {
 
-        System.out.println(Message.PORT_CONNECTION + DEFAULT_PORT);
+        System.out.println("Connecting to PORT:" + DEFAULT_PORT);
 
         try {
 
             images = new ArrayList<>();
-            images.addAll(ASCII.getList().values());
+            images.addAll(ASCII.getList().keySet());
             Collections.shuffle(images);
-
 
             ServerSocket serverSocket = new ServerSocket(DEFAULT_PORT);
             int userCount = 0;
@@ -53,16 +46,15 @@ public class Server {
                 prompt = new Prompt(in, out);
 
 
-                System.out.println(Message.NEW_CONNECTION + userSocket.getInetAddress().getHostAddress());
+                System.out.println("\033[36mNew Connection\033[0m" + userSocket.getInetAddress().getHostAddress());
                 userCount++;
 
-                String username = Message.DEFAULT_USER + userCount;
+                String username = "Player " + userCount;
 
                 UsersHandler usersHandler = new UsersHandler(username, userSocket, this);
                 welcome();
 
-
-                UsersHandler.broadcastMessage("", usersHandler.getUsername() + Message.NEW_USER);
+                UsersHandler.broadcastMessage("", "\n"+usersHandler.getUsername() + " has entered the game room.");
                 usersList.add(usersHandler);
 
                 Thread thread = new Thread(usersHandler);
@@ -73,7 +65,6 @@ public class Server {
 
         } catch (IOException e) {
             e.getStackTrace();
-
         }
     }
 
@@ -93,21 +84,15 @@ public class Server {
         return newName;
     }
 
-    public String getUsersInChat() {
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (UsersHandler usersHandler : usersList) {
-            stringBuilder.append(usersHandler.getUsername() + "\n");
-        }
-        return stringBuilder.toString();
-    }
-
     public Prompt getPrompt() {
         return prompt;
     }
 
     public static List<String> getImages() {
         return images;
+    }
+
+    public BufferedWriter getBufferedWriter() {
+        return bufferedWriter;
     }
 }

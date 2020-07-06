@@ -1,7 +1,6 @@
 package org.academiadecodigo.gitbusters;
 
 import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
-
 import java.io.*;
 import java.net.Socket;
 
@@ -48,18 +47,15 @@ public class UsersHandler implements Runnable {
 
         } catch (IOException | InterruptedException e) {
             e.getStackTrace();
-
         }
     }
 
 
     public void changeUserName(String newName) {
-
         broadcastMessage(username, " is now called " + newName);
         username = Server.changeUsername(newName);
 
     }
-
 
     public static void broadcastMessage(String username, String messageToBroadcast) {
 
@@ -67,7 +63,6 @@ public class UsersHandler implements Runnable {
 
             if (!usersHandler.getUsername().equals(username)) {
                 usersHandler.sendMessage(username + " " + messageToBroadcast);
-
             }
         }
     }
@@ -82,8 +77,12 @@ public class UsersHandler implements Runnable {
 
         } catch (IOException e) {
             e.getStackTrace();
-
         }
+    }
+
+    public void quit() throws IOException {
+        userSocket.close();
+        Server.usersList.remove(this);
     }
 
     public String getUsername() {
@@ -98,11 +97,6 @@ public class UsersHandler implements Runnable {
         return server;
     }
 
-    public void quit() throws IOException {
-        userSocket.close();
-        Server.usersList.remove(this);
-    }
-
     public Game getGame() {
         return game;
     }
@@ -114,6 +108,4 @@ public class UsersHandler implements Runnable {
     public boolean getReady() {
         return ready;
     }
-
-
 }
