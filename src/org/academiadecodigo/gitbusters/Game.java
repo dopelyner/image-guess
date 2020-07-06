@@ -53,7 +53,6 @@ public class Game {
             case 4 -> {
                 Collections.shuffle(Server.getImages());
                 UsersHandler.broadcastMessage("", "\nImages have been shuffled\n");
-                showMenu();
             }
             case 5 -> instructionsMenu();
             case 6 -> {

@@ -81,7 +81,6 @@ public class Server {
         try {
 
             bufferedWriter.write(Image.imageGuess);
-//       bufferedWriter.write(Image.separator);
             bufferedWriter.flush();
 
         } catch (IOException ioException) {
@@ -91,16 +90,6 @@ public class Server {
 
     public static String changeUsername(String newName) {
         return newName;
-    }
-
-    public String getUsersInChat() {
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (UsersHandler usersHandler : usersList) {
-            stringBuilder.append(usersHandler.getUsername() + "\n");
-        }
-        return stringBuilder.toString();
     }
 
     public Prompt getPrompt() {
