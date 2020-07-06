@@ -1,7 +1,6 @@
 package org.academiadecodigo.gitbusters;
 
 import org.academiadecodigo.bootcamp.Prompt;
-
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,11 +13,6 @@ public class Server {
     private static final int DEFAULT_PORT = 80;
     public static List<UsersHandler> usersList = Collections.synchronizedList(new ArrayList<>());
     public static List<String> images;
-
-    public BufferedWriter getBufferedWriter() {
-        return bufferedWriter;
-    }
-
     private BufferedWriter bufferedWriter;
     private Prompt prompt;
 
@@ -39,9 +33,9 @@ public class Server {
             images.addAll(ASCII.getList().keySet());
             Collections.shuffle(images);
 
-
             ServerSocket serverSocket = new ServerSocket(DEFAULT_PORT);
             int userCount = 0;
+
             while (true) {
 
                 Socket userSocket = serverSocket.accept();
@@ -67,12 +61,10 @@ public class Server {
                 thread.setName(username);
                 thread.start();
 
-
             }
 
         } catch (IOException e) {
             e.getStackTrace();
-
         }
     }
 
@@ -98,5 +90,9 @@ public class Server {
 
     public static List<String> getImages() {
         return images;
+    }
+
+    public BufferedWriter getBufferedWriter() {
+        return bufferedWriter;
     }
 }

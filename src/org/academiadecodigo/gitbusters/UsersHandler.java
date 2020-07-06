@@ -23,7 +23,6 @@ public class UsersHandler implements Runnable {
         this.ready = false;
         this.game = new Game(this);
 
-
         try {
 
             readInputFromUser = new BufferedReader(new InputStreamReader((userSocket.getInputStream())));
@@ -38,29 +37,23 @@ public class UsersHandler implements Runnable {
     public void run() {
 
         String messageFromUser;
-
         try {
 
             while (!userSocket.isClosed()) {
 
                 while(true){
                     game.showMenu();
-
-
                 }
             }
 
         } catch (IOException | InterruptedException e) {
             e.getStackTrace();
-
         }
     }
 
     public void changeUserName(String newName) {
-
         broadcastMessage(username, " is now called " + newName);
         username = Server.changeUsername(newName);
-
     }
 
     public static void broadcastMessage(String username, String messageToBroadcast) {
@@ -84,7 +77,6 @@ public class UsersHandler implements Runnable {
 
         } catch (IOException e) {
             e.getStackTrace();
-
         }
     }
 

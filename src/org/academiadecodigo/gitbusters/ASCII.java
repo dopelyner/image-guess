@@ -1,4 +1,5 @@
 package org.academiadecodigo.gitbusters;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ASCII {
@@ -34,9 +35,7 @@ public class ASCII {
         list.put(Image.turtle, "turtle");
         list.put(Image.windows, "windows");
 
-
         return list;
-
     }
 
 
